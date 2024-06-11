@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushB
 from PyQt5.QtGui import QColor
 from datetime import date
 
-class WorkoutTracker(QMainWindow):
+class WorkoutTracker(QMainWindow): #subclass QMainWindow
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Workout Tracker")
@@ -35,7 +35,8 @@ class WorkoutTracker(QMainWindow):
         layout.addRow(date_label, date_edit)
 
         location_label = QLabel("Location:")
-        location_entry = QLineEdit()
+        location_entry = QComboBox()
+        location_entry.addItems(["Holmes Place", "Club Athlethen", "Beat 81"])
         layout.addRow(location_label, location_entry)
 
         duration_label = QLabel("Duration:")
@@ -49,9 +50,9 @@ class WorkoutTracker(QMainWindow):
         layout.addRow(add_exercise_button)
 
         if dialog.exec_() == QDialog.Accepted:
-            self.show_exercise_dialog(date_edit.date().toPyDate(), location_entry.text(), duration_combo.currentText())
+            self.show_exercise_dialog()
 
-    def show_exercise_dialog(self, workout_date, location, duration):
+    def show_exercise_dialog(self):
         dialog = QDialog(self)
         dialog.setWindowTitle("Add Exercise")
         layout = QFormLayout(dialog)
@@ -100,8 +101,10 @@ class WorkoutTracker(QMainWindow):
                 if child.widget():
                     child.widget().deleteLater()
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
+if __name__ == "__main__": # prevent code from running if imported as a module
+    app = QApplication(sys.argv) # Must construct a QApplication before a QWidget
     window = WorkoutTracker()
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec_()) # Start the application's event loop
+    
+    
